@@ -10,6 +10,22 @@ const questionSchema = new Schema({
         type: String, 
         required: false
     },
+    optionA:{
+        type:String,
+        required:true
+    },
+    optionB:{
+        type:String,
+        required:true
+    },
+    optionC:{
+        type:String,
+        required:true
+    },
+    optionD:{
+        type:String,
+        required:true
+    },
     answerId: {
         type: Schema.Types.ObjectId,
         ref:'Answer',

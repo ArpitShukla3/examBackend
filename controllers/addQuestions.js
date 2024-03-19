@@ -1,21 +1,24 @@
 import Exam from "../Schema/Exam.js";
 import Questions from "../Schema/Questions.js";
 export default async function addQuestions(req, res) {
-  const  {examID, questions} = req.body;
-
+  const  {hashID, questions} = req.body;
+  console.log(req.body);
+  // return res.status(205);
   if(!questions || questions.length <= 0) {
     return res.status(400).json({
       success: false,
       message: "Error occurred",
     });
   }
-
   const exam_questions = [];
   for (const element of questions) {
     const new_ques = new Questions({
       question: element.question,
       image: element.image,
-      answer:""
+      optionA: element.optionA,
+      optionB: element.optionB,
+      optionC: element.optionC,
+      optionD:  element.optionD
     });
     try {
         const doc = await new_ques.save(); 
@@ -24,11 +27,10 @@ export default async function addQuestions(req, res) {
         console.log(error.message);
     }
   }
-
   try {
     await Exam.updateOne(
-        { _id: examID },
-        { $push: { question: { $each: exam_questions } } }
+        { hashID: hashID },
+        { question: exam_questions}
       );
   res.status(200).json({
     success: true,
@@ -41,4 +43,27 @@ export default async function addQuestions(req, res) {
         message: error.message,
       });
 }
+}
+export async function getAllQuestions(req,res)
+{
+  try {
+    const {examID} = req.query;
+    const examOwnerDetails =   await Exam.findById(examID);
+    if (req.body.userID.toString() !== examOwnerDetails.createdBy.toString()) {
+      console.log(examOwnerDetails.createdBy, req.body.userID);
+      return res.status(401).json({
+        success: false,
+        message: "Not Authorized"
+      });
+    }
+    const questionDetails = await Exam.findById({_id:examID}).populate("question");
+    return res.status(200).json({
+      data:questionDetails
+    })
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
 }
