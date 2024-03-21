@@ -2,14 +2,14 @@ import Exam from "../Schema/Exam.js";
 import Questions from "../Schema/Questions.js";
 export default async function addQuestions(req, res) {
   const  {hashID, questions} = req.body;
-  console.log(req.body);
-  // return res.status(205);
+  
   if(!questions || questions.length <= 0) {
     return res.status(400).json({
       success: false,
       message: "Error occurred",
     });
   }
+  
   const exam_questions = [];
   for (const element of questions) {
     const new_ques = new Questions({
@@ -18,17 +18,24 @@ export default async function addQuestions(req, res) {
       optionA: element.optionA,
       optionB: element.optionB,
       optionC: element.optionC,
-      optionD:  element.optionD
+      optionD:  element.optionD,
+      hashID: hashID,
     });
+    
     try {
         const doc = await new_ques.save(); 
         exam_questions.push(doc._id);
+       
     } catch (error) {
-        console.log(error.message);
+      // console.log("req.body");
+     return res.status(400).json({
+        success: false,
+        message: error.message,
+      });
     }
   }
   try {
-    await Exam.updateOne(
+  const response=  await Exam.updateOne(
         { hashID: hashID },
         { question: exam_questions}
       );
@@ -38,7 +45,7 @@ export default async function addQuestions(req, res) {
     count: exam_questions.length
   });
 } catch (error) {
-    res.status(400).json({
+    return res.status(400).json({
         success: false,
         message: error.message,
       });
@@ -50,7 +57,7 @@ export async function getAllQuestions(req,res)
     const {examID} = req.query;
     const examOwnerDetails =   await Exam.findById(examID);
     if (req.body.userID.toString() !== examOwnerDetails.createdBy.toString()) {
-      console.log(examOwnerDetails.createdBy, req.body.userID);
+      // console.log(examOwnerDetails.createdBy, req.body.userID);
       return res.status(401).json({
         success: false,
         message: "Not Authorized"

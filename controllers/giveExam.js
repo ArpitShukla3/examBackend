@@ -26,13 +26,13 @@ export default async function giveExam(req,res){
                 })  
             }
         })
-        console.log("Saving existing student")
+        // console.log("Saving existing student")
         await Student.updateOne({Clerk_id:req.headers.authorization},{examsGiven:[questionDetails._id,...examsAttempted.examsGiven]})
        }
        else{
-        console.log("Saving new student",questionDetails._id)
+        // console.log("Saving new student",questionDetails._id)
         const data =await Student.updateOne({Clerk_id:req.headers.authorization},{examsGiven:[questionDetails._id]})
-        console.log("Details of new Studnet",data)
+        // console.log("Details of new Studnet",data)
     }
         return res.status(200).json({
             data:questionDetails

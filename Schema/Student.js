@@ -20,6 +20,10 @@ const student = new Schema({
     type: Schema.Types.ObjectId,
     ref:"Exam"
   }],
+  SubmittedExams:[{
+    type:Schema.Types.ObjectId,
+    ref:"Exam"
+  }]
   // notifications: [
   //   {
   //     type: Schema.Types.ObjectId,

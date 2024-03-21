@@ -12,7 +12,7 @@ export async function signup(req,res){
            email:email_addresses[0].email_address
         })
       const results =  await doc.save();
-      console.log(results);
+    //   console.log(results);
        return res.status(200);
     }
     catch(error)
