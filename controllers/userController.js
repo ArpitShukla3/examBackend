@@ -4,7 +4,12 @@ export async function signup(req,res){
         const {id,first_name,last_name,primary_email_address_id,email_addresses}=req.body.data;
         // console.log(id,first_name,last_name,primary_email_address_id,email_addresses);
         // console.log(email_addresses[0])
-        
+        const userExists = await UserModel.findOne({ email:email_addresses[0].email_address});
+        if(userExists)
+        {
+            console.log("exists",userExists);
+            return res.status(200);
+        }
         let name = (first_name)? first_name:"" + (last_name)? last_name:""; 
         const doc = new UserModel({
            name :name,

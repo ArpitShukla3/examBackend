@@ -2,7 +2,7 @@ import Student from "../Schema/Student.js";
 import {ObjectId} from 'mongodb';
 export default async function submittedMiddleWare(req,res,next){
     try {
-        console.log(req.body,req.headers.authorization);
+        // console.log(req.body,req.headers.authorization);
         const {examID} =req.body.doc;
         const agg = [
             {
@@ -13,17 +13,17 @@ export default async function submittedMiddleWare(req,res,next){
             }
           ];
           const cursor = await Student.aggregate(agg);
-          console.log(cursor);
-          if(cursor)
+          // console.log("cursor",cursor);
+          if(cursor.length!=0)
           {
-            return res.status(200).json({
+            return res.status(400).json({
                 success:true,
                 message:"Submitted exams cannot be  accessed again",
             })
           }
         next();
     } catch (error) {
-        return res.status(401).json({
+        return res.status(400).json({
             success:true,
             error:error.message,
         })

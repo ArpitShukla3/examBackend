@@ -3,10 +3,10 @@ import Student from "../Schema/Student.js";
 export default async function finalSubmit(req,res)
 {
     try {
-    console.log(req.body);
+    // console.log(req.body);
     const {examID,userID} = req.body;
     const doc =await Student.updateOne({Clerk_id:req.headers.authorization},{ $push: { SubmittedExams: examID }});
-    console.log(doc);
+    // console.log(doc);
     return res.status(200).json({
         success:true,
         data:doc

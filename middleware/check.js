@@ -6,14 +6,14 @@ async function middleware(req,res,next)
 {
     if (req.headers.authorization) {
       try {
-        const data = await UserModel.find({Clerk_id:req.headers.authorization});
+        const data = await UserModel.findOne({Clerk_id:req.headers.authorization});
         if(!data)
         {
           return res.status(400).json({
             message:"Login first"
           })
         }
-        req.body.userID=data[0]._id;
+        req.body.userID=data._id;
         next();
       } catch (err) {
         return res.status(400).json({

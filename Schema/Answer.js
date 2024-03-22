@@ -5,7 +5,7 @@ const {Schema}=mongoose;
 const answer=new Schema({
     student_id:{
         type:Schema.Types.ObjectId,
-        ref:"Student",
+        ref:"UserModel",
         required:true
     },
     questionId: {

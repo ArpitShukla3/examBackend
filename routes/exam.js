@@ -15,6 +15,8 @@ import submittedMiddleWare from "../middleware/submittedMiddleWare.js";
 import checkOwner from "../middleware/checkOwner.js";
 import saveKey from "../controllers/saveKey.js";
 import resetKey from "../controllers/resetKey.js";
+import getKeyForOne from "../controllers/getKeyForOne.js";
+import generateResult from "../controllers/generateResult.js";
 
 const router =express.Router();
 router.use(middleware);
@@ -32,7 +34,8 @@ router.post("/resetAnswer",submittedMiddleWare,resetAnswer);
 // *** For the teachers while uploading answerKey ***
 router.post("/saveKey",checkOwner,saveKey);
 router.post("/resetKey",checkOwner,resetKey);
-
+router.post("/getKeyForOne",checkOwner,getKeyForOne);
+router.post("/generateResult",checkOwner,generateResult)
 // *** 
 router.post("/getAnswerForOne",getAnswerForOne);
 router.post("/finalSubmit",finalSubmit);
