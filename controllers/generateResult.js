@@ -15,8 +15,8 @@ export default async function generateResult(req, res) {
       host: "smtp.gmail.com",
       secure: true, // enforcing secure transfer
       auth: {
-        user: 'arpitdev323@gmail.com',
-        pass: 'nyae dlup xoph phwm'
+        user: process.env.user,
+        pass: process.env.pass,
       } ,
       tls: {
           rejectUnauthorized: false
@@ -80,7 +80,7 @@ export default async function generateResult(req, res) {
           }
         htmlContent += `
       <div>
-        <h3>Question: ${questionDetails.text}</h3>
+        <h3>Question: ${questionDetails.question}</h3>
         ${questionDetails.image ? `<img src="${questionDetails.image}" alt="Question Image">` : ''}
         <p>Submitted Answer: ${submittedAnswer.answer}</p>
         <p>Correct Answer: ${correctAnswer.answer}</p>
@@ -89,7 +89,7 @@ export default async function generateResult(req, res) {
   }
   // console.log("bcvg","questionDetails","submittedAnswer",correctAnswer,"positiveMarks","negativeMarks");
       }
-      htmlContent += `</body></html>`;
+      htmlContent += `<br><h1>Your marks are ${score}</h1></body></html>`;
       const markEntry = new Marks({
         studentID: studentId._id, // Ensure you're using the ObjectId of the student
         examId: examID,
@@ -163,7 +163,6 @@ function generateExcelFromResults(updatedResult) {
   // Write the workbook to a file
   XLSX.writeFile(workbook, fileName);
 
-  console.log(`Excel file '${fileName}' has been generated successfully.`);
   const buffer = XLSX.write(workbook, { type: "buffer", bookType: "xlsx" });
   return buffer;
 }
@@ -176,10 +175,7 @@ async function sendEmail(transporter,html,subject,studentClerkId,score)
     { Clerk_id:studentClerkId},
     "name email"
   );
-  // console.log(studentInfo);
-  // console.log(html,subject,studentClerkId,score)
   const recipent = await UserModel.findOne({Clerk_id:studentClerkId});
-  // console.log(recipent);
   let mailOptions = {
     from: process.env.user, // Sender address
     to: recipent.email, // List of recipients
@@ -193,6 +189,5 @@ transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
         return console.log(`Error: ${error}`);
     }
-    console.log(`Message Sent: ${info.response}`);
 });
 }
