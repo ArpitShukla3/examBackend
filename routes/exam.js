@@ -17,6 +17,7 @@ import saveKey from "../controllers/saveKey.js";
 import resetKey from "../controllers/resetKey.js";
 import getKeyForOne from "../controllers/getKeyForOne.js";
 import generateResult from "../controllers/generateResult.js";
+import dashboard from "../controllers/dashboard.js";
 
 const router =express.Router();
 router.use(middleware);
@@ -39,5 +40,9 @@ router.post("/generateResult",checkOwner,generateResult)
 // *** 
 router.post("/getAnswerForOne",getAnswerForOne);
 router.post("/finalSubmit",finalSubmit);
+
+
+router.get("/dashboard",dashboard);
 const exam_routes=router;
 export default exam_routes;
+

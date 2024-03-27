@@ -8,6 +8,11 @@ const studentMarkSchema = new Schema({
         ref:"Student",
         required: true
     },
+    Clerk_id:{
+        type: String,
+        required:true,
+        unique:true
+    },
     examId: {
         type: Schema.Types.ObjectId, // or any other type that suits your needs
         ref:"Exam",
@@ -25,7 +30,8 @@ const studentMarkSchema = new Schema({
         type: Number,
         required: true
     }
-});
+},
+{timestamps:true});
 
 const Marks = mongoose.model("Marks", studentMarkSchema);
 export default Marks;

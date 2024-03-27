@@ -8,6 +8,8 @@ import UserModel from "../Schema/UserModel.js";
 import XLSX from "xlsx";
 import nodemailer from "nodemailer";
 import Questions from "../Schema/Questions.js";
+import dotenv from "dotenv";
+dotenv.config();
 export default async function generateResult(req, res) {
   try {
   
@@ -90,9 +92,12 @@ export default async function generateResult(req, res) {
   // console.log("bcvg","questionDetails","submittedAnswer",correctAnswer,"positiveMarks","negativeMarks");
       }
       htmlContent += `<br><h1>Your marks are ${score}</h1></body></html>`;
+      await Marks.deleteMany({ studentID: studentId._id,  examId: examID,});
+      console.log(student_clerk_id);
       const markEntry = new Marks({
         studentID: studentId._id, // Ensure you're using the ObjectId of the student
         examId: examID,
+        Clerk_id:student_clerk_id,
         marksObtained: score,
         positiveMarks: positiveMarks,
         negativeMarks: negativeMarks,
