@@ -8,7 +8,8 @@ const user=new Schema({
     },
     Clerk_id:{
         type:String,
-        required:true
+        required:true,
+        unique:true
     },
     email:{
         type:"string",
