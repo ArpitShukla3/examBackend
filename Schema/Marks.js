@@ -11,7 +11,6 @@ const studentMarkSchema = new Schema({
     Clerk_id:{
         type: String,
         required:true,
-        unique:true
     },
     examId: {
         type: Schema.Types.ObjectId, // or any other type that suits your needs
