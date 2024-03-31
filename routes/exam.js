@@ -18,6 +18,7 @@ import resetKey from "../controllers/resetKey.js";
 import getKeyForOne from "../controllers/getKeyForOne.js";
 import generateResult from "../controllers/generateResult.js";
 import dashboard from "../controllers/dashboard.js";
+import { getAllQuesForExam } from "../controllers/getAllQuesForExam.js";
 
 const router =express.Router();
 router.use(middleware);
@@ -28,7 +29,7 @@ router.post("/addQues",addQuestions); // adding question to exams
 router.get("/accessExam",accessExam); // return question details for that exam
 router.get("/examDetails",getAllQuestions); // Teacher access examDetails for modifications
 router.get("/allQues",getAllQues);
-router.get("/allQuesForAttemptingExam",submittedMiddleWare,getAllQues);
+router.get("/allQuesForAttemptingExam",submittedMiddleWare,getAllQuesForExam);
 router.post("/giveExam",giveExam);
 //*** For the students while giving exam */
 router.post("/saveAnswer",submittedMiddleWare,saveAnswer);
